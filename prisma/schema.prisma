@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+  GUEST
+}
+
+model User {
+  user_id    Int     @id @default(autoincrement())
+  username   String  @unique
+  password   String
+  prefix     String?
+  frist_name String?
+  last_name  String?
+  email      String? @unique
+  IMG        String?
+  role       Role    @default(STUDENT)
+  class      Class   @relation(fields: [classCl_id], references: [cl_id], onDelete: Cascade, onUpdate: Cascade)
+  classCl_id Int
+  Term       Term[]
+
+  @@map("user")
+}
+
+model Subject {
+  sj_id    Int     @id @default(autoincrement())
+  sub_code String?
+  subject  String?
+  credit   Int?
+  Term     Term[]
+
+  @@map("subject")
+}
+
+model Class {
+  cl_id     Int     @id @default(autoincrement())
+  classroom String?
+  User      User[]
+
+  @@map("class")
+}
+
+model Term {
+  tr_id        Int     @id @default(autoincrement())
+  datetime     String?
+  grade        Int?
+  subject      Subject @relation(fields: [subjectSj_id], references: [sj_id], onDelete: Cascade, onUpdate: Cascade)
+  subjectSj_id Int
+  user         User    @relation(fields: [userUser_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+  userUser_id  Int
+
+  @@map("trem")
+}
+
+model Lsg {
+  lsg_id   Int     @id @default(autoincrement())
+  lsg_name String?
+
+  @@map("lsg")
+}
