@@ -5,11 +5,19 @@ exports.getClass = async (req, res , next) => {
     const getClass = await prisma.class.findMany();
     res.json({ getClass });
 }
+exports.getUser =async (req, res, next) => {
+    const getUser = await prisma.user.findMany({
+        include: {
+            class: true,
+        }
+    })
+    res.json({ getUser })
+}
 exports.getUserByClass = async (req, res , next) => {
     const{id} = req.params
     const getUser = await prisma.user.findMany({
         where: {
-            classCl_id: +id 
+            classCl_id: +id
         }
     });
     res.json({ getUser });
@@ -27,7 +35,8 @@ exports.getTerm = async (req, res , next) => {
 exports.createTerm = async (req, res, next) => {
     try {
         const {datetime, grade, subjectSj_id, userUser_id} = req.body
-        const termCreate = await prisma.trem.create({
+        console.log(req.body)
+        const termCreate = await prisma.term.create({
             data: {
                 datetime,
                 grade: Number(grade),

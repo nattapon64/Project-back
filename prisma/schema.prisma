@@ -55,7 +55,7 @@ model Class {
 model Term {
   tr_id        Int     @id @default(autoincrement())
   datetime     String?
-  grade        Int?
+  grade        Float?
   subject      Subject @relation(fields: [subjectSj_id], references: [sj_id], onDelete: Cascade, onUpdate: Cascade)
   subjectSj_id Int
   user         User    @relation(fields: [userUser_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)

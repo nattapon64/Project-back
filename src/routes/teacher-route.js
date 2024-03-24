@@ -5,6 +5,7 @@ const TeacherControllers = require('../controllers/teacher-controllers')
 router.get('/class', TeacherControllers.getClass)
 router.get('/subject', TeacherControllers.getSubject)
 router.get('/term', TeacherControllers.getTerm)
+router.get('/user',TeacherControllers.getUser)
 router.get('/user/:id', TeacherControllers.getUserByClass)
 // router.get('/login', TeacherControllers.teacherlogin)
 
