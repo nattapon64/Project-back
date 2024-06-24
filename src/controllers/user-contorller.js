@@ -65,8 +65,3 @@ exports.getme = (req, res, next) => {
     next(error);
   }
 };
-
-exports.getTerm = async (req, res , next) => {
-  const getTerm = await prisma.term.findMany();
-  res.json({ getTerm });
-}

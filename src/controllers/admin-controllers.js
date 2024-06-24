@@ -7,7 +7,7 @@ const cloudupload = require("../utils/cloudupload");
 exports.createUser = async (req, res, next) => {
 
     try {
-        const {username , password, prefix ,frist_name, last_name, email, IMG, role, classCl_id} = req.body;
+        const {username , password, prefix ,frist_name, last_name, email, role, classCl_id} = req.body;
         const hash = await bcrypt.hash(password, 10);
 
         console.log(req.body)
@@ -124,7 +124,7 @@ exports.adminlogin = async (req, res, next) => {
     }
   };
 
-exports.updetaUser = async (req, res, mext) => {
+exports.updetaUser = async (req, res, next) => {
     const { userID } = req.params;
     const {
         username,
@@ -155,3 +155,8 @@ exports.updetaUser = async (req, res, mext) => {
         console.log(err)
     }
 }
+
+exports.selectClass = async (req, res, next) => {
+    const slClass = await prisma.class.findMany()
+    res.json({ slClass, message: "Select Class"})
+} 

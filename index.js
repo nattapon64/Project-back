@@ -6,7 +6,7 @@ const errorMiddleware = require('./src/middlewares/error')
 const userRouter = require('./src/routes/user-routes')
 const AdminRoute = require('./src/routes/admin-route')
 const TeacherRoute = require('./src/routes/teacher-route')
-
+const Student = require('./src/routes//studen-route')
 
 const web = express()
 
@@ -16,6 +16,7 @@ web.use(express.json())
 web.use('/user', userRouter)
 web.use('/admin', AdminRoute)
 web.use('/teacher', TeacherRoute)
+web.use('/student', Student)
 
 
 web.use( notFound )
