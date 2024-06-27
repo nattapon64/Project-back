@@ -47,7 +47,7 @@ exports.getSubject = async (req, res, next) => {
 
 exports.getTerm = async (req, res, next) => {
   const getTerm = await prisma.term.findMany();
-  console.log(getTerm)
+  console.log(getTerm);
   res.json({ getTerm });
 };
 exports.createTerm = async (req, res, next) => {
@@ -106,7 +106,7 @@ exports.searchUser = async (req, res, next) => {
   try {
     const searchUserID = req.query.search || "";
 
-    console.log(searchUserID);
+    // console.log(searchUserID);
 
     const search = decodeURIComponent(searchUserID);
 
@@ -143,29 +143,63 @@ exports.updateGrade = async (req, res, next) => {
         subjectSj_id,
         userUser_id,
       },
-      where: { tr_id: Number(trID)},
+      where: { tr_id: Number(trID) },
     });
-    res.json({ message: "UPDATE", resault: rs})
+    res.json({ message: "UPDATE", resault: rs });
   } catch (err) {
     next(err);
   }
 };
 
 exports.getGradeByUID = async (req, res, next) => {
+  const { userID } = req.params;
 
-    const { userID } = req.params;
+  try {
+    const gradeUID = await prisma.term.findFirst({
+      where: {
+        tr_id: Number(userID)
+      },
+      include: {
+        subject: true,
+        user: true,
+      }
+    });
+    res.json({ gradeUID });
+  } catch (err) {
+    next(err);
+    console.log(err);
+  }
+};
 
-    try {
-        const gradeUID = await prisma.term.findFirst({
-            where: {
-                user: {
-                    user_id: Number(userID)
-                }
-            }     
-        })
-        res.json({ gradeUID })
-    }catch(err){
-        next(err)
-        console.log(err)
-    }
-}
+exports.getTermUser = async (req, res, next) => {
+  try {
+    const searchUserID = req.query.search || "";
+    const datatime = req.query.year || "";
+    const search = decodeURIComponent(searchUserID);
+
+    const getUser = await prisma.user.findFirst({
+      where: {
+        username: {
+          contains: search
+        }
+      }
+    })
+
+    const getTerm = await prisma.term.findMany({
+      where: {
+        userUser_id: getUser.user_id,
+        AND: {
+          datetime: datatime,
+        }
+      },
+      include: {
+        user: true,
+        subject: true
+      }
+    });
+
+    res.json({ getTerm });
+  } catch (err) {
+    next(err);
+  }
+};

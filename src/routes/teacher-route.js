@@ -10,6 +10,7 @@ router.get('/user',TeacherControllers.getUser)
 router.get('/user/:id', TeacherControllers.getUserByClass)
 router.get('/getUSer/:id', TeacherControllers.getUserByID)
 router.get('/searchUser*', TeacherControllers.searchUser)
+router.get('/getTermUser', TeacherControllers.getTermUser)
 // router.get('/login', TeacherControllers.teacherlogin)
 
 router.post('/term', TeacherControllers.createTerm)
